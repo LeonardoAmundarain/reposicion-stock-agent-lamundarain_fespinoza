@@ -16,10 +16,15 @@ textColor = "#2E1A2B"
 linkColor = "#743067"
 borderColor = "#E6DBF0"
 baseRadius = "large"
+baseFontSize = 17
+headingFontSizes = ["2.9rem", "1.7rem", "1.3rem"]
+metricValueFontSize = "2.3rem"
+showSidebarBorder = true
 # Si no hay internet, la letra Poppins no carga y se usa la del sistema.
 font = "Poppins:https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap, sans-serif"
 headingFont = "Poppins:https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap, sans-serif"
 
 [theme.sidebar]
-backgroundColor = "#F3EDFB"
+backgroundColor = "#EADFF8"
 secondaryBackgroundColor = "#FFFFFF"
+headingFontSizes = ["1.45rem", "1.2rem", "1.15rem"]
