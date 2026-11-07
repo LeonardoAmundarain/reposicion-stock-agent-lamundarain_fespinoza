@@ -1,0 +1,13 @@
+langchain>=1,<2
+langchain-classic>=1,<2
+langchain-google-genai>=3,<5
+langchain-anthropic>=1,<2
+langchain-huggingface>=1,<2
+langchain-chroma>=1,<2
+chromadb
+streamlit
+python-dotenv
+pandas
+openpyxl
+pytest
+sentence-transformers

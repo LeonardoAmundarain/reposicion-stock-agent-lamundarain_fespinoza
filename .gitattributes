@@ -1,0 +1,3 @@
+# Los iniciadores necesitan el salto de línea de su sistema.
+*.bat text eol=crlf
+*.sh text eol=lf

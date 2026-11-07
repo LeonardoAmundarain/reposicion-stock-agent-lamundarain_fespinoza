@@ -1,0 +1,7 @@
+[server]
+# La aplicación solo se abre desde este computador, no desde la red.
+address = "localhost"
+port = 8501
+
+[browser]
+gatherUsageStats = false
