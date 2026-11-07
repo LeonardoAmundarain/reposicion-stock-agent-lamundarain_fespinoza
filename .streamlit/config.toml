@@ -5,3 +5,21 @@ port = 8501
 
 [browser]
 gatherUsageStats = false
+
+# Colores tomados del logo de Oferta Perfumes: morado #743067, magenta #FB02A1 y lila #B4AFFA.
+[theme]
+base = "light"
+primaryColor = "#C8137F"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F5F1FC"
+textColor = "#2E1A2B"
+linkColor = "#743067"
+borderColor = "#E6DBF0"
+baseRadius = "large"
+# Si no hay internet, la letra Poppins no carga y se usa la del sistema.
+font = "Poppins:https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap, sans-serif"
+headingFont = "Poppins:https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap, sans-serif"
+
+[theme.sidebar]
+backgroundColor = "#F3EDFB"
+secondaryBackgroundColor = "#FFFFFF"

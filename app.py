@@ -10,9 +10,10 @@ from agent.memory.short_term import crear_memoria_corto_plazo
 from config import settings
 from scripts.seed_data import ArchivoOcupado, reiniciar_demo
 
-st.set_page_config(page_title="Agente de reposición", layout="wide")
+LOGO = settings.BASE_DIR / "assets" / "logo.png"
+ICONO = settings.BASE_DIR / "assets" / "icono.png"
 
-
+st.set_page_config(page_title="Agente de reposición", page_icon=str(ICONO), layout="wide")
 
 # Carga el modelo al abrir la aplicación para que la primera planificación no demore.
 with st.spinner("Preparando la memoria semántica..."):
@@ -42,6 +43,7 @@ def tabla(lineas: list[dict]) -> None:
 
 
 with st.sidebar:
+    st.image(str(LOGO), width=220)
     st.title("Agente de reposición")
     st.caption("Perfumería · EP2 ISY0101")
     origen = "Datos reales (solo local)" if settings.FUENTE_DATOS == "real" else "Datos simulados"
@@ -68,7 +70,7 @@ with st.sidebar:
                        "el agente prueba con el siguiente.")
     else:
         st.warning(settings.motivo_llm_apagado(proveedor))
-    if st.button("Reiniciar demo"):
+    if st.button("Reiniciar demo", icon=":material/restart_alt:"):
         try:
             reiniciar_demo()
         except ArchivoOcupado as error:
@@ -82,7 +84,8 @@ with st.sidebar:
 
 st.title("Reposición de tiendas y bodega online")
 tab_plan, tab_chat, tab_solicitudes, tab_pedido = st.tabs(
-    ["Planificar", "Conversar con el agente", "Solicitudes abiertas", "Pedido de tienda"]
+    [":material/inventory_2: Planificar", ":material/forum: Conversar con el agente",
+     ":material/assignment: Solicitudes abiertas", ":material/storefront: Pedido de tienda"]
 )
 
 with tab_plan:
@@ -92,7 +95,7 @@ with tab_plan:
         "Simular cambio durante la ejecución (código:unidades que salen de la central)",
         placeholder="CODIGO:8",
     )
-    if st.button("Planificar reposición", type="primary"):
+    if st.button("Planificar reposición", type="primary", icon=":material/play_arrow:"):
         simular = None
         if ":" in merma:
             codigo, unidades = merma.split(":", 1)
@@ -121,7 +124,8 @@ with tab_plan:
             m2.metric("Unidades a devolver", sum(l["cantidad"] for l in devolver))
             m3.metric("Unidades a comprar", r["compras"])
             m4.metric("Productos cubiertos", len(cubiertos))
-            t1, t2, t3, t4 = st.tabs(["Reponer", "Devolver a central", "Solicitar compra", "Fuera de línea"])
+            t1, t2, t3, t4 = st.tabs([":material/local_shipping: Reponer", ":material/undo: Devolver a central",
+                                      ":material/shopping_cart: Solicitar compra", ":material/block: Fuera de línea"])
             with t1:
                 tabla(reponer)
             with t2:
@@ -145,7 +149,7 @@ with tab_chat:
     st.caption("Prueba: «¿Cuánto stock hay de» más un código o nombre, «planifica la tienda de árabes», "
                "«cómo libero espacio en el local»")
     for rol, texto, nota in st.session_state.chat:
-        with st.chat_message(rol):
+        with st.chat_message(rol, avatar=str(ICONO) if rol == "assistant" else ":material/person:"):
             # Dos espacios antes del salto: así Streamlit respeta cada línea.
             st.write(texto.replace("\n", "  \n"))
             if nota:
@@ -173,7 +177,7 @@ with tab_solicitudes:
             format_func=lambda i: next(f"#{s['id']} {s['tipo']} {s['codigo']} ({s['cantidad']})"
                                        for s in abiertas if s["id"] == i),
         )
-        if st.button("Confirmar recepción"):
+        if st.button("Confirmar recepción", icon=":material/check_circle:"):
             resultado = confirmar_recepcion(identificador, fecha)
             if resultado["ok"] and resultado["retomados"]:
                 st.success(f"Compra recibida. El agente retomó la reposición: {resultado['retomados']}")
@@ -189,5 +193,5 @@ with tab_pedido:
     ejemplo = "QUIEBRE15" if settings.FUENTE_DATOS == "simulado" else ""
     codigo_pedido = c2.text_input("Código del producto", value=ejemplo)
     cantidad_pedido = c3.number_input("Cantidad pedida", min_value=1, value=50)
-    if st.button("Evaluar pedido"):
+    if st.button("Evaluar pedido", type="primary", icon=":material/fact_check:"):
         st.json(evaluar_solicitud_tienda(local_pedido, codigo_pedido.strip(), int(cantidad_pedido), fecha))
