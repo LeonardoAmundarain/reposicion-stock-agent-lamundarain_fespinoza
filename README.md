@@ -83,12 +83,31 @@ Más diagramas en [docs/diagrama_orquestacion.md](docs/diagrama_orquestacion.md)
 
 ### Planificación
 
-El agente sigue un plan de 12 pasos y lo adapta según lo que encuentra:
+El agente sigue un plan de 12 pasos, definido en `agent/planner.py` (`PLAN_BASE`) y ejecutado por el orquestador en
+`agent/core.py`:
+
+| # | Paso | Qué hace |
+|---|---|---|
+| 1 | `recordar_ciclo_anterior` | Lee el último ciclo del local y revisa si ya corresponde un pedido nuevo según la frecuencia |
+| 2 | `consultar_stock` | Stock del local y de la bodega central |
+| 3 | `consultar_ventas` | Venta diaria del local, sin las ventas mayoristas |
+| 4 | `proyectar_demanda` | Venta esperada, con factor 1,5 en temporada alta |
+| 5 | `decidir_por_producto` | Aplica las 7 reglas a cada producto, descontando lo que ya viene en camino |
+| 6 | `secuenciar_por_prioridad` | Ordena por urgencia y reparte primero la central a lo más urgente |
+| 7 | `buscar_politicas` | Recupera por significado la política que respalda cada acción |
+| 8 | `registrar_devoluciones` | Registra lo que vuelve a la bodega central |
+| 9 | `registrar_reposiciones` | Registra lo que sale de la central hacia el local |
+| 10 | `solicitar_compra` | Registra lo que la central no puede cubrir |
+| 11 | `notificar_responsable` | Avisa al local o a compras con el resumen del ciclo |
+| 12 | `guardar_memoria` | Guarda el ciclo en SQLite y como caso en la memoria semántica |
+
+En la interfaz, cada paso ejecutado se ve en **Plan y razonamiento del agente**. El plan se adapta según lo que
+encuentra:
 
 - Cada tienda repone solo su línea; lo de otra línea se vende hasta agotarse, porque la venta está migrando de a poco.
 - Ordena los productos por urgencia y reparte primero la central a lo más urgente.
-- Quita del plan los pasos sin trabajo.
-- Si la central cambia mientras escribe, ajusta las cantidades y agrega la compra.
+- Quita del plan los pasos sin trabajo (por ejemplo, el 8 si no hay nada que devolver).
+- Si la central cambia durante el paso 9, ajusta las cantidades y agrega el paso 10 si no estaba.
 - Las decisiones cambian con la fecha: en temporada alta sube el objetivo de stock.
 - Al recibir una compra, retoma los productos que la esperaban.
 
