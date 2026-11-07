@@ -202,7 +202,7 @@ los archivos de ventas o stock, ejecuta de nuevo `python -m scripts.seed_data`, 
 | Conversar | «cómo libero espacio en el local» | Cita la política de devoluciones |
 | Pedido de tienda | Local 15, `QUIEBRE15`, 50 unidades | Aprueba solo 9 |
 
-Guion completo en [docs/guion_demo.md](docs/guion_demo.md).
+Escenarios paso a paso en [docs/guion_demo.md](docs/guion_demo.md).
 
 ## Pruebas y evidencia
 
