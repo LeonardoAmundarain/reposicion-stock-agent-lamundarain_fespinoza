@@ -1,0 +1,151 @@
+[
+  {
+    "escenario": "1. Quiebre en tienda",
+    "condicion": "QUIEBRE15 sin stock y con venta diaria de 1",
+    "resultado": {
+      "accion": "reponer",
+      "cantidad": 9,
+      "compra": 0,
+      "objetivo": 9,
+      "stock_local": 0,
+      "en_transito": 0,
+      "central": 200,
+      "prioridad": 1,
+      "razon": "Necesita 9 y tiene 0"
+    }
+  },
+  {
+    "escenario": "2. Sin movimiento",
+    "condicion": "LENTO15 con stock y sin ventas en 60 días",
+    "resultado": {
+      "accion": "devolver_central",
+      "cantidad": 5,
+      "compra": 0,
+      "objetivo": 0,
+      "stock_local": 5,
+      "en_transito": 0,
+      "central": 50,
+      "prioridad": 3,
+      "razon": "Sin ventas en 60 días"
+    }
+  },
+  {
+    "escenario": "3. Central sin unidades",
+    "condicion": "AGOTADO15 sin stock en la central",
+    "resultado": {
+      "accion": "sin_stock_central",
+      "cantidad": 0,
+      "compra": 38,
+      "objetivo": 5,
+      "stock_local": 1,
+      "en_transito": 0,
+      "central": 0,
+      "prioridad": 3,
+      "razon": "Necesita 4 y la central no tiene"
+    }
+  },
+  {
+    "escenario": "4. Memoria: pedido en camino",
+    "condicion": "Mismo local al día siguiente",
+    "resultado": {
+      "accion": "cubierto",
+      "cantidad": 0,
+      "compra": 0,
+      "objetivo": 9,
+      "stock_local": 0,
+      "en_transito": 9,
+      "central": 191,
+      "prioridad": 3,
+      "razon": "Tiene 9 y necesita 9"
+    }
+  },
+  {
+    "escenario": "5. Temporada alta",
+    "condicion": "Misma tienda y producto el 20 de noviembre",
+    "resultado": {
+      "accion": "reponer",
+      "cantidad": 5,
+      "compra": 0,
+      "objetivo": 14,
+      "stock_local": 0,
+      "en_transito": 9,
+      "central": 191,
+      "prioridad": 3,
+      "razon": "Necesita 14 y tiene 9"
+    }
+  },
+  {
+    "escenario": "6. Replanificación",
+    "condicion": "La central pierde 8 unidades durante la ejecución",
+    "resultado": {
+      "accion": "reponer_parcial",
+      "cantidad": 4,
+      "compra": 73,
+      "objetivo": 9,
+      "stock_local": 0,
+      "en_transito": 0,
+      "central": 12,
+      "prioridad": 1,
+      "razon": "La central cambió: se pidieron 9 y hay 4",
+      "replanificaciones": [
+        "Central insuficiente en 1 producto(s): se ajustó la reposición y se agregó la compra del faltante."
+      ]
+    }
+  },
+  {
+    "escenario": "7. Pedido excedido",
+    "condicion": "La tienda pide 50 y requiere 9",
+    "resultado": {
+      "ok": true,
+      "decision": "ajustada",
+      "aprobado": 9,
+      "compra": 0,
+      "razon": "Pidió 50; requiere 9; la central tiene 200"
+    }
+  },
+  {
+    "escenario": "8. Pedido no requerido",
+    "condicion": "La tienda pide 5 de un producto cubierto",
+    "resultado": {
+      "ok": true,
+      "decision": "rechazada",
+      "aprobado": 0,
+      "razon": "No es requerida: el stock ya cubre la venta del período"
+    }
+  },
+  {
+    "escenario": "9. Retomar tarea",
+    "condicion": "Llega la compra de AGOTADO15",
+    "resultado": {
+      "ok": true,
+      "tipo": "compra",
+      "codigo": "AGOTADO15",
+      "cantidad": 38,
+      "retomados": {
+        "15": 4
+      }
+    }
+  },
+  {
+    "escenario": "10. Online por quincena",
+    "condicion": "Primer pedido de la quincena",
+    "resultado": {
+      "accion": "reponer",
+      "cantidad": 11,
+      "compra": 0,
+      "objetivo": 13,
+      "stock_local": 2,
+      "en_transito": 0,
+      "central": 500,
+      "prioridad": 3,
+      "razon": "Necesita 13 y tiene 2"
+    }
+  },
+  {
+    "escenario": "11. Frecuencia online",
+    "condicion": "Segundo intento en la misma quincena",
+    "resultado": {
+      "accion": "frecuencia_cumplida"
+    }
+  }
+]
