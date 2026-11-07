@@ -41,13 +41,11 @@ La pauta prohíbe usar IA para redactar justificaciones técnicas. Esta tabla re
 | Sin idempotencia | Recuerda lo que viene en camino y no lo pide de nuevo |
 | LangChain menor a 1.0 | LangChain 1.x, porque la versión de la guía falla con Gemini 3 y tools |
 
-## Justificación del equipo (redactar sin IA)
+## Justificación del equipo
 
-Expliquen con sus palabras por qué eligieron cada componente y cómo responde al flujo de trabajo:
-
-- Framework y LLM:
-- Separación entre reglas y LLM:
-- Memoria (corto plazo, largo plazo, semántica):
-- Planificación y prioridades:
-- Almacenamiento:
-- Interfaz:
+- **Framework y LLM:** Elegimos LangChain (AgentExecutor) integrado con Gemini como opción nativa gratuita (3.6 Flash/3.5 Flash-Lite) y Claude como alternativa avanzada de pago, asegurando flexibilidad en los costos de ejecución y respuestas en lenguaje natural contextualizadas para los usuarios.
+- **Separación entre reglas y LLM:** Implementamos las reglas de negocio en un componente independiente (planner.py), que core.py usa como modo de reglas, para que el negocio siga operando con lógica dura determinista incluso si no hay conexión a los LLM o fallan las API keys, garantizando que la IA actúe como un facilitador de interfaz y no como una caja negra crítica.
+- **Memoria (corto plazo, largo plazo, semántica):** Diseñamos una estrategia triple utilizando ConversationBufferMemory para retener el contexto inmediato del local, registros en SQLite para la persistencia del estado ante reinicios (saber qué pedidos vienen en camino), y Chroma DB para recuperar políticas organizacionales de manera semántica.
+- **Planificación y prioridades:** El componente planner.py define un plan adaptativo de 12 pasos, que el orquestador core.py ejecuta, y jerarquiza los productos por nivel de urgencia (por ejemplo, quiebres de stock), optimizando la distribución de la bodega central y recalculando dinámicamente las cantidades requeridas según los objetivos de temporada alta.
+- **Almacenamiento:** Adoptamos un enfoque híbrido local con SQLite para estructurar tablas relacionales de ciclos y solicitudes (datos de fácil auditoría) junto con Chroma DB como almacenamiento vectorial para el indexado eficiente de documentos informativos y casos previos.
+- **Interfaz:** Desarrollamos una aplicación web interactiva en Streamlit que unifica de forma simple tres flujos clave para el negocio: la visualización del plan de reposición automático, una ventana de chat directo con el agente de IA y un formulario que evalúa con las reglas los pedidos que envían las tiendas.
