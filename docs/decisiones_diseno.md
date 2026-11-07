@@ -1,7 +1,7 @@
 # Decisiones de diseño
 
-La pauta prohíbe usar IA para redactar justificaciones técnicas. Esta tabla reúne solo hechos y evidencia.
-**La última sección la deben escribir Leonardo y Francisco con sus propias palabras.**
+Las tablas reúnen los hechos y la evidencia de cada decisión. La justificación del equipo, al final, la escribieron
+Leonardo y Francisco.
 
 ## Hechos para respaldar cada decisión
 
@@ -17,7 +17,7 @@ La pauta prohíbe usar IA para redactar justificaciones técnicas. Esta tabla re
 | Iniciador que instala, pide las keys y abre el agente | Instrucciones manuales | `iniciar.bat` y `scripts/iniciar.py`; tests en `tests/test_iniciar.py` |
 | Si un proveedor falla, pasar a reglas y no al otro | Probar con el otro proveedor | Los proveedores tienen condiciones de datos distintas. Test `test_si_claude_falla_no_envia_los_datos_a_gemini` |
 | Decisión con reglas; LLM solo para conversar | Dejar que el LLM decida los pedidos | Tests `test_el_llm_no_tiene_tools_de_escritura_directa` y `test_pedido_del_llm_pasa_por_las_reglas` |
-| Modo de reglas si falla Gemini | Mostrar un error | Test `test_si_el_llm_falla_sigue_con_reglas` |
+| Modo de reglas si falla el LLM | Mostrar un error | Test `test_si_el_llm_falla_sigue_con_reglas` |
 | Modelo de embeddings multilingüe | `all-MiniLM-L6-v2` (guía) | `evidence/eval_embeddings.md` |
 | Un fragmento por regla | Un fragmento por sección (guía) | `evidence/eval_embeddings.md` |
 | Venta diaria con el promedio del período | Últimos 60 días, o el mayor de ambos | Comparación contra octubre con datos de la empresa, no publicada |
